@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitHub 速读设置</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page-shell narrow-shell">
+      <a href="inbox.html" class="back-link">返回工作台</a>
+      <header class="page-header">
+        <span class="eyebrow">GitHub 速读设置</span>
+        <h1>连接你的模型</h1>
+        <p>API Key 只保存在当前浏览器的扩展本地存储中。原型支持 OpenAI Chat Completions 兼容接口。</p>
+      </header>
+
+      <form id="settings-form" class="surface settings-form">
+        <label>
+          API Endpoint 或 Base URL
+          <input id="api-endpoint" type="url" required placeholder="https://api.openai.com/v1/chat/completions" />
+          <small>可直接填写 OpenAI、Gemini 或 DeepSeek 的 Base URL，保存时会自动补全 Chat Completions 路径。</small>
+        </label>
+        <label>
+          API Key
+          <input id="api-key" type="password" required autocomplete="off" placeholder="sk-…" />
+        </label>
+        <label class="choice-row">
+          <input id="auto-select-model" type="checkbox" checked />
+          <span>
+            自动选择模型
+            <small>优先选择可用的免费、Flash、Lite 或 Mini 文本模型，并缓存选择结果。</small>
+          </span>
+        </label>
+        <div id="selected-model" class="model-selection" hidden>
+          <span>当前自动选择</span>
+          <strong></strong>
+        </div>
+        <details class="advanced-settings">
+          <summary>高级设置</summary>
+          <label>
+            手动指定模型
+            <input id="model" type="text" placeholder="例如 deepseek-chat" />
+            <small>仅在自动选择失败或你明确需要某个模型时使用。</small>
+          </label>
+        </details>
+        <div id="settings-notice" class="notice" hidden></div>
+        <div class="form-actions">
+          <button class="primary-button" type="submit">保存设置</button>
+          <button class="secondary-button" id="test-button" type="button">测试连接</button>
+        </div>
+      </form>
+
+      <section class="privacy-note">
+        <strong>原型提醒</strong>
+        <p>浏览器本地存储不是硬件级密钥保险箱。第一版适合个人验证，不建议在共享电脑中保存高权限密钥。</p>
+      </section>
+    </main>
+    <script type="module" src="options.js"></script>
+  </body>
+</html>

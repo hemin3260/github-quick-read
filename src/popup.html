@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitHub 速读</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="popup-page">
+    <main class="popup-shell">
+      <header class="brand-row">
+        <div>
+          <strong>GitHub 速读</strong>
+          <p>保存仓库，先看结论</p>
+        </div>
+      </header>
+
+      <section id="page-summary" class="surface compact-surface">
+        <span class="eyebrow">当前仓库</span>
+        <h1 id="repo-name">正在识别…</h1>
+        <p id="repo-url" class="muted truncate"></p>
+      </section>
+
+      <div id="notice" class="notice" hidden></div>
+
+      <section id="quick-read" class="quick-read surface" hidden>
+        <div class="quick-read-topline">
+          <span id="preview-category" class="category-badge"></span>
+          <span class="muted small-text">解读完成</span>
+        </div>
+        <h2 id="preview-verdict"></h2>
+        <p id="preview-overview" class="preview-overview"></p>
+        <div id="preview-risk-block" class="preview-detail" hidden>
+          <span>需要留意</span>
+          <ul id="preview-risks"></ul>
+        </div>
+        <div class="preview-next-step">
+          <span>下一步</span>
+          <strong id="preview-next-step"></strong>
+        </div>
+        <button id="view-detail" class="primary-button">查看完整解读</button>
+      </section>
+
+      <button id="capture-button" class="primary-button">生成解读</button>
+      <div class="secondary-actions">
+        <button id="open-inbox" class="text-button">打开工作台</button>
+        <button id="open-options" class="text-button">设置模型</button>
+      </div>
+    </main>
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

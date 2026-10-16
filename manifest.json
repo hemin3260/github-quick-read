@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "GitHub 速读",
+  "version": "0.1.0",
+  "description": "保存 GitHub 仓库，先看中文结论，再决定是否深入。",
+  "permissions": ["activeTab", "storage", "tabs"],
+  "host_permissions": [
+    "https://api.github.com/*",
+    "https://raw.githubusercontent.com/*",
+    "https://*/*"
+  ],
+  "background": {
+    "service_worker": "src/background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "解读当前 GitHub 仓库",
+    "default_popup": "src/popup.html"
+  },
+  "options_page": "src/options.html",
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y",
+        "mac": "Command+Shift+Y"
+      },
+      "description": "打开 GitHub 速读"
+    }
+  }
+}

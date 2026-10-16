@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitHub 速读工作台</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="inbox-header">
+        <div>
+          <div class="brand-row">
+            <strong>GitHub 速读</strong>
+          </div>
+          <h1>解读工作台</h1>
+          <p>先看结论，再决定是否值得投入时间。</p>
+        </div>
+        <button id="open-options" class="secondary-button">模型设置</button>
+      </header>
+
+      <section class="toolbar surface">
+        <label>
+          状态
+          <select id="state-filter">
+            <option value="all">全部状态</option>
+            <option>未处理</option>
+            <option>值得尝试</option>
+            <option>归档</option>
+          </select>
+        </label>
+        <label>
+          分类
+          <select id="category-filter"><option value="all">全部分类</option></select>
+        </label>
+        <label class="search-field">
+          搜索
+          <input id="search-input" type="search" placeholder="仓库、解读或分类" />
+        </label>
+        <div class="result-meta">
+          <span>最新解读优先</span>
+          <strong id="item-count" class="result-count"></strong>
+        </div>
+      </section>
+
+      <section id="empty-state" class="empty-state" hidden>
+        <h2>还没有解读</h2>
+        <p>打开任意公开 GitHub 仓库，点击浏览器工具栏中的“GitHub 速读”。</p>
+      </section>
+
+      <section id="no-results" class="empty-state" hidden>
+        <h2>没有符合条件的解读</h2>
+        <p>试试清除搜索词，或选择其他状态和分类。</p>
+      </section>
+
+      <section id="cards" class="card-list"></section>
+      <nav id="pagination" class="pagination" aria-label="解读分页" hidden>
+        <button id="previous-page" class="secondary-button" type="button">上一页</button>
+        <span id="page-status" aria-live="polite"></span>
+        <button id="next-page" class="secondary-button" type="button">下一页</button>
+      </nav>
+    </main>
+    <template id="card-template">
+      <article class="repo-card surface">
+        <div class="card-topline">
+          <span class="category-badge"></span>
+          <span class="analysis-status"></span>
+        </div>
+        <div class="repo-heading">
+          <div>
+            <a class="repo-title" target="_blank" rel="noreferrer"></a>
+            <p class="repo-description"></p>
+          </div>
+          <div class="repo-stats"></div>
+        </div>
+        <div class="analysis-ready">
+          <p class="verdict"></p>
+          <section class="overview-block">
+            <h3>项目概述</h3>
+            <p class="overview"></p>
+          </section>
+          <div class="detail-grid">
+            <section>
+              <h3>关键亮点</h3>
+              <ul class="highlights"></ul>
+            </section>
+            <section>
+              <h3>风险与未知</h3>
+              <ul class="risks"></ul>
+            </section>
+          </div>
+          <div class="next-step"><span>建议下一步</span><strong></strong></div>
+        </div>
+        <div class="analysis-error" hidden>
+          <p></p>
+          <button class="retry-button secondary-button">重新生成</button>
+        </div>
+        <footer class="card-footer">
+          <label>分类 <select class="category-select"></select></label>
+          <label>状态 <select class="state-select"></select></label>
+          <button class="delete-button text-button danger">删除</button>
+        </footer>
+      </article>
+    </template>
+    <script type="module" src="inbox.js"></script>
+  </body>
+</html>
