@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GitHub 速读工作台</title>
+    <title>文章链接速读工作台</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -11,7 +11,7 @@
       <header class="inbox-header">
         <div>
           <div class="brand-row">
-            <strong>GitHub 速读</strong>
+            <strong>文章链接速读</strong>
           </div>
           <h1>解读工作台</h1>
           <p>先看结论，再决定是否值得投入时间。</p>
@@ -35,7 +35,7 @@
         </label>
         <label class="search-field">
           搜索
-          <input id="search-input" type="search" placeholder="仓库、解读或分类" />
+          <input id="search-input" type="search" placeholder="标题、来源、解读或分类" />
         </label>
         <div class="result-meta">
           <span>最新解读优先</span>
@@ -45,7 +45,7 @@
 
       <section id="empty-state" class="empty-state" hidden>
         <h2>还没有解读</h2>
-        <p>打开任意公开 GitHub 仓库，点击浏览器工具栏中的“GitHub 速读”。</p>
+        <p>打开公开的 GitHub 仓库、X 长文或博客，点击浏览器工具栏中的“文章链接速读”。</p>
       </section>
 
       <section id="no-results" class="empty-state" hidden>
@@ -63,7 +63,7 @@
     <template id="card-template">
       <article class="repo-card surface">
         <div class="card-topline">
-          <span class="category-badge"></span>
+          <div class="badge-group"><span class="content-type-badge"></span><span class="category-badge"></span></div>
           <span class="analysis-status"></span>
         </div>
         <div class="repo-heading">
@@ -76,7 +76,7 @@
         <div class="analysis-ready">
           <p class="verdict"></p>
           <section class="overview-block">
-            <h3>项目概述</h3>
+            <h3>内容概述</h3>
             <p class="overview"></p>
           </section>
           <div class="detail-grid">

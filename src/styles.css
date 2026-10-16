@@ -89,6 +89,8 @@ input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px r
 .repo-card { padding: 24px; }
 .repo-card.target-card { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(29, 107, 80, .12), var(--shadow); }
 .card-topline { display: flex; justify-content: space-between; align-items: center; }
+.badge-group { display: flex; flex-wrap: wrap; gap: 7px; }
+.content-type-badge { padding: 5px 9px; border-radius: 999px; color: #555d59; background: #ece9e0; font-size: 12px; font-weight: 800; }
 .category-badge { padding: 5px 9px; border-radius: 999px; color: var(--accent-dark); background: var(--accent-soft); font-size: 12px; font-weight: 800; }
 .analysis-status { color: var(--muted); font-size: 12px; }
 .repo-heading { display: flex; justify-content: space-between; gap: 24px; margin-top: 17px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }

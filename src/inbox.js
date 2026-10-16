@@ -14,7 +14,7 @@ const nextPageButton = document.querySelector("#next-page");
 const pageStatus = document.querySelector("#page-status");
 let items = [];
 let currentPage = 1;
-let pendingTargetId = new URLSearchParams(location.search).get("repo");
+let pendingTargetId = new URLSearchParams(location.search).get("item") || new URLSearchParams(location.search).get("repo");
 
 for (const category of PROJECT_CATEGORIES) categoryFilter.add(new Option(category, category));
 
@@ -71,6 +71,8 @@ function renderCard(item) {
   const fragment = template.content.cloneNode(true);
   const card = fragment.querySelector(".repo-card");
   card.dataset.id = item.id;
+  const contentType = item.contentType === "article" ? "文章" : "GitHub";
+  fragment.querySelector(".content-type-badge").textContent = contentType;
   fragment.querySelector(".category-badge").textContent = item.category;
   const status = fragment.querySelector(".analysis-status");
   status.textContent = item.analysisStatus === "ready" ? `更新于 ${formatDate(item.updatedAt)}` : item.analysisStatus === "processing" ? "正在生成" : "生成失败";
@@ -78,10 +80,8 @@ function renderCard(item) {
   const title = fragment.querySelector(".repo-title");
   title.textContent = item.title;
   title.href = item.url;
-  fragment.querySelector(".repo-description").textContent = item.metadata?.description || "等待获取仓库描述";
-  fragment.querySelector(".repo-stats").textContent = item.metadata
-    ? `★ ${formatCompactNumber(item.metadata.stars)} · ${item.metadata.language} · ${item.metadata.license}`
-    : "";
+  fragment.querySelector(".repo-description").textContent = item.metadata?.description || "暂无来源简介";
+  fragment.querySelector(".repo-stats").textContent = formatSourceMeta(item);
 
   const ready = fragment.querySelector(".analysis-ready");
   const error = fragment.querySelector(".analysis-error");
@@ -123,6 +123,19 @@ function renderCard(item) {
     render();
   });
   return fragment;
+}
+
+function formatSourceMeta(item) {
+  if (!item.metadata) return "";
+  if (item.contentType === "article") {
+    return [
+      item.metadata.siteName || item.metadata.domain,
+      item.metadata.author,
+      item.metadata.publishedAt ? `发布于 ${formatDate(item.metadata.publishedAt)}` : "",
+      item.metadata.imageCount ? `${item.metadata.imageCount} 张图` : ""
+    ].filter(Boolean).join(" · ");
+  }
+  return `★ ${formatCompactNumber(item.metadata.stars)} · ${item.metadata.language} · ${item.metadata.license}`;
 }
 
 function fillList(list, values) {

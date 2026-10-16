@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { compareByLatestAnalysis, extractJson, getModelsEndpoint, normalizeAnalysis, normalizeChatCompletionsEndpoint, paginateItems, parseGitHubRepository, selectAutomaticModel } from "../src/lib.js";
+import { compareByLatestAnalysis, extractJson, getModelsEndpoint, normalizeAnalysis, normalizeChatCompletionsEndpoint, paginateItems, parseGitHubRepository, parseReadableLink, selectAutomaticModel } from "../src/lib.js";
 
 test("parses repository URL and removes subpaths", () => {
   assert.deepEqual(parseGitHubRepository("https://github.com/openai/openai-node/tree/master/src"), {
@@ -15,6 +15,18 @@ test("rejects non-GitHub and GitHub non-repository URLs", () => {
   assert.equal(parseGitHubRepository("https://example.com/a/b"), null);
   assert.equal(parseGitHubRepository("https://github.com/trending/typescript"), null);
   assert.equal(parseGitHubRepository("https://github.com/orgs/openai/repositories"), null);
+});
+
+test("normalizes readable article links and removes tracking data", () => {
+  assert.deepEqual(
+    parseReadableLink("https://example.com/post?utm_source=x&chapter=2#comments"),
+    {
+      key: "article:https://example.com/post?chapter=2",
+      url: "https://example.com/post?chapter=2",
+      hostname: "example.com"
+    }
+  );
+  assert.equal(parseReadableLink("chrome://extensions"), null);
 });
 
 test("extracts JSON from fenced model output", () => {

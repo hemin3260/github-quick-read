@@ -9,6 +9,11 @@ export const PROJECT_CATEGORIES = [
   "部署运维",
   "设计与内容",
   "学习资源",
+  "行业观点",
+  "教程指南",
+  "研究论文",
+  "产品案例",
+  "新闻资讯",
   "其他"
 ];
 
@@ -139,6 +144,30 @@ export function parseGitHubRepository(input) {
   };
 }
 
+export function parseReadableLink(input) {
+  let url;
+  try {
+    url = new URL(input);
+  } catch {
+    return null;
+  }
+
+  if (!["http:", "https:"].includes(url.protocol)) return null;
+
+  url.hash = "";
+  for (const key of [...url.searchParams.keys()]) {
+    if (/^(utm_.+|spm|ref|referrer|source)$/i.test(key)) url.searchParams.delete(key);
+  }
+  url.searchParams.sort();
+  const normalizedUrl = url.toString();
+
+  return {
+    key: `article:${normalizedUrl}`,
+    url: normalizedUrl,
+    hostname: url.hostname.replace(/^www\./i, "")
+  };
+}
+
 export function extractJson(text) {
   const cleaned = String(text ?? "")
     .trim()
@@ -202,10 +231,10 @@ export function normalizeAnalysis(value) {
 
   return {
     verdict: String(value?.verdict || "暂时无法形成明确结论"),
-    overview: String(value?.overview || "暂无项目概述"),
+    overview: String(value?.overview || "暂无内容概述"),
     highlights,
     risks: list(value?.risks),
-    nextStep: String(value?.nextStep || "先阅读项目 README"),
+    nextStep: String(value?.nextStep || "打开原文核对关键细节"),
     category
   };
 }
