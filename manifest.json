@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "文章链接速读",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "解读 GitHub、X 长文和公开博客，先看中文结论，再决定是否深入。",
   "permissions": ["activeTab", "scripting", "storage", "tabs"],
   "host_permissions": [

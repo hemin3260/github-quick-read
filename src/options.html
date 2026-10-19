@@ -40,8 +40,8 @@
           <summary>高级设置</summary>
           <label>
             手动指定模型
-            <input id="model" type="text" placeholder="例如 deepseek-chat" />
-            <small>仅在自动选择失败或你明确需要某个模型时使用。</small>
+            <input id="model" type="text" autocomplete="off" placeholder="填写服务商提供的模型 ID" />
+            <small>直接输入模型名称会关闭自动选择；保存或测试时将跳过模型列表接口。</small>
           </label>
         </details>
         <div id="settings-notice" class="notice" hidden></div>

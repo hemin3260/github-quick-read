@@ -16,15 +16,16 @@ async function initialize() {
   autoSelectInput.checked = !settings.model || settings.model === "auto";
   modelInput.value = autoSelectInput.checked ? "" : settings.model;
   keyInput.value = settings.apiKey;
+  document.querySelector(".advanced-settings").open = !autoSelectInput.checked;
   updateModelControls();
-  showSelectedModel(settings.resolvedModel);
+  showSelectedModel(autoSelectInput.checked ? settings.resolvedModel : settings.model);
 }
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   try {
     const settings = await sendMessage({ type: "saveSettings", settings: currentSettings() });
-    showSelectedModel(settings.resolvedModel);
+    showSelectedModel(settings.model === "auto" ? settings.resolvedModel : settings.model);
     showNotice(autoSelectInput.checked ? "设置已保存，首次解读时会自动选择模型。" : "设置已保存。", "success");
   } catch (error) {
     showNotice(error.message, "error");
@@ -47,26 +48,42 @@ document.querySelector("#test-button").addEventListener("click", async (event) =
 });
 
 function currentSettings() {
+  const manualModel = modelInput.value.trim();
+  if (!autoSelectInput.checked && !manualModel) {
+    throw new Error("请输入模型名称，或重新开启自动选择模型");
+  }
   return {
     apiEndpoint: endpointInput.value.trim(),
-    model: autoSelectInput.checked ? "auto" : modelInput.value.trim(),
+    model: autoSelectInput.checked ? "auto" : manualModel,
     apiKey: keyInput.value.trim()
   };
 }
 
 function updateModelControls() {
-  modelInput.disabled = autoSelectInput.checked;
   modelInput.required = !autoSelectInput.checked;
+  modelInput.setAttribute("aria-label", autoSelectInput.checked ? "输入模型名称以改为手动选择" : "手动指定模型");
 }
 
 function showSelectedModel(model) {
   selectedModel.hidden = !model;
+  selectedModel.querySelector("span").textContent = autoSelectInput.checked ? "当前自动选择" : "当前手动模型";
   selectedModel.querySelector("strong").textContent = model || "";
 }
 
 autoSelectInput.addEventListener("change", () => {
   updateModelControls();
   if (!autoSelectInput.checked) document.querySelector(".advanced-settings").open = true;
+  selectedModel.hidden = true;
+});
+
+modelInput.addEventListener("input", () => {
+  if (!modelInput.value.trim()) {
+    selectedModel.hidden = true;
+    return;
+  }
+  autoSelectInput.checked = false;
+  updateModelControls();
+  showSelectedModel(modelInput.value.trim());
 });
 
 function showNotice(message, kind) {
